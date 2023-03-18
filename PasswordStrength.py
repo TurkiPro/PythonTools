@@ -1,22 +1,27 @@
 import re
 
 def password_check(password):
-    if len(password) < 12:
-        return False
-    elif not re.search("[a-z]", password):
-        return False
-    elif not re.search("[A-Z]", password):
-        return False
-    elif not re.search("[0-9]", password):
-        return False
-    elif not re.search("[!@#$%^&*()-_=+:;,./?]", password):
-        return False
-    else:
-        return True
+    strength = 0
+    if len(password) >= 12:
+        strength += 1
+    if re.search("[a-z]", password):
+        strength += 1
+    if re.search("[A-Z]", password):
+        strength += 1
+    if re.search("[0-9]", password):
+        strength += 1
+    if re.search("[!@#$%^&*()_+]", password):
+        strength += 1
+    return strength
+
     
 password = input("Enter your password: ")
 
-if password_check(password):
-    print("Your password is strong")
+strength = password_check(password)
+
+print(f"your password has a strength of {strength} out of 5")
+
+if strength < 5:
+    print("Consider the following:\n-Password length should be more than 12 characters\n-It needs to have at least one lower-case and upper-case letter\n-It needs to have one number\n-It needs to have one special character")
 else:
-    print("Your password is weak")
+    print("Nice!! your password is strong.")
